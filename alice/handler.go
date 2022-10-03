@@ -9,7 +9,7 @@ import (
 func Test() {
 	updates := alice.ListenForWebhook("/hook")
 	go func() {
-		err := http.ListenAndServe(":3000", nil)
+		err := http.ListenAndServe(":5000", nil)
 		if err != nil {
 			log.Fatal(err)
 		}
