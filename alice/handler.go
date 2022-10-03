@@ -12,7 +12,8 @@ func Test() {
 	updates := alice.ListenForWebhook("/hook")
 	go func() {
 
-		port := fmt.Sprintf("0.0.0.0:%d", os.Getenv("PORT"))
+		port := fmt.Sprintf(":%s", os.Getenv("PORT"))
+		fmt.Println(port)
 		err := http.ListenAndServe(port, nil)
 		if err != nil {
 			log.Fatal(err)
