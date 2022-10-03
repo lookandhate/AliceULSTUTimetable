@@ -1,15 +1,19 @@
 package alice
 
 import (
+	"fmt"
 	"github.com/azzzak/alice"
 	"log"
 	"net/http"
+	"os"
 )
 
 func Test() {
 	updates := alice.ListenForWebhook("/hook")
 	go func() {
-		err := http.ListenAndServe(":5000", nil)
+
+		port := fmt.Sprintf("0.0.0.0:%d", os.Getenv("PORT"))
+		err := http.ListenAndServe(port, nil)
 		if err != nil {
 			log.Fatal(err)
 		}
