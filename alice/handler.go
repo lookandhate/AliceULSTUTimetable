@@ -1,11 +1,13 @@
 package alice
 
 import (
+	"AliceULSTUTimetable/sheets"
 	"fmt"
 	"github.com/azzzak/alice"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func Test() {
@@ -26,6 +28,15 @@ func Test() {
 			return resp.Text("привет")
 		}
 		fmt.Printf(req.Command())
+		if strings.Contains(req.Command(), "расписание") || strings.Contains(req.Command(), "пары") {
+			lessons := sheets.GetTodaySchedule()
+			outputString := ""
+			for i, lesson := range lessons {
+				outputString += fmt.Sprintf("Пара %d: %s\n", i+1, lesson.Lesson)
+
+			}
+			return resp.Text(outputString)
+		}
 		return resp.Text(req.OriginalUtterance())
 
 	})

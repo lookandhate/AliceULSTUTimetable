@@ -11,7 +11,7 @@ import (
 
 type Lesson struct {
 	lessonNum int
-	lesson    string
+	Lesson    string
 }
 
 func getSheet() *spreadsheet.Sheet {
