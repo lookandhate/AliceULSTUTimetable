@@ -25,6 +25,8 @@ func Test() {
 		if req.IsNewSession() {
 			return resp.Text("привет")
 		}
+		fmt.Printf(req.Command())
 		return resp.Text(req.OriginalUtterance())
+
 	})
 }

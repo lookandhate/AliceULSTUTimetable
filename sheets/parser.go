@@ -5,8 +5,14 @@ import (
 	"gopkg.in/Iwark/spreadsheet.v2"
 	"log"
 	"strconv"
+	"strings"
 	"time"
 )
+
+type Lesson struct {
+	lessonNum int
+	lesson    string
+}
 
 func getSheet() *spreadsheet.Sheet {
 	service, err := spreadsheet.NewService()
@@ -36,14 +42,19 @@ func getCurrentWeekNum() int {
 
 }
 
-func GetTodaySchedule() {
+func GetTodaySchedule() []Lesson {
 	rowToSearch := getTodayRow()
 	sheet := getSheet()
+	lessonsArray := make([]Lesson, 0)
 
 	for i := 1; i <= 8; i++ {
-		fmt.Printf("Пара %d: %s\n", i, sheet.Columns[i][rowToSearch].Value)
-
+		lessons := strings.Split(sheet.Columns[i][rowToSearch].Value, ":")
+		if len(lessons[0]) > 0 {
+			fmt.Printf("Пара %d: %s\n", i, lessons[0])
+			lessonsArray = append(lessonsArray, Lesson{i, lessons[0]})
+		}
 	}
+	return lessonsArray
 
 }
 
