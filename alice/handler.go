@@ -23,17 +23,24 @@ func Test() {
 	}()
 
 	updates.Loop(func(k alice.Kit) *alice.Response {
+
 		req, resp := k.Init()
 		if req.IsNewSession() {
-			return resp.Text("привет")
+			return resp.Text("Привет! Я подскажу тебе расписание на сегодня. Напиши мне \"Расписание\" или \"Пары\"")
 		}
-		fmt.Printf(req.Command())
+
+		var lessons []sheets.Lesson
 		if strings.Contains(req.Command(), "расписание") || strings.Contains(req.Command(), "пары") {
-			lessons := sheets.GetTodaySchedule()
+			if strings.Contains(req.Command(), "сегодня") {
+				lessons = sheets.GetTodaySchedule()
+			}
+			if strings.Contains(req.Command(), "завтра") {
+				lessons = sheets.GetTomorrowSchedule()
+			}
+
 			outputString := ""
 			for i, lesson := range lessons {
 				outputString += fmt.Sprintf("Пара %d: %s\n", i+1, lesson.Lesson)
-
 			}
 			return resp.Text(outputString)
 		}
